@@ -5,10 +5,6 @@
 #include <ranges>
 #include <cstdint>
 
-bool same(int v1, int v2) {
-    return v1 == v2;
-}
-
 int solve() {
     std::ifstream istream{"input.txt"};
     if (!istream) {
@@ -31,7 +27,6 @@ int solve() {
     int v;
     for(size_t i = 0; i < l1.size(); i++) {
         sum += abs(l1.at(i) - l2.at(i));
-        
     }
 
     std::cout << sum << '\n';
