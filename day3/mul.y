@@ -24,25 +24,22 @@ void yyerror(const char *s);
 
 %%
 file:
-    lines
-;
-
-lines: 
-    lines line 
-    | line;
-;
-
-mul:
-    MUL LPAR INT ',' INT RPAR {
-        int result = $3 * $5;
-        printf("FOUND MUL - RESULT: %d\n", result);
-    }
+    line
 ;
 
 line: 
-    mul         {printf("mul\n");}
-    | STRING    {printf("STRING\n");}
+    line seq
+    | line mul
+    | seq
+;
+
+seq: 
+    STRING      {printf("STRING\n");}
     | INT       {printf("INT\n");}
+    | MUL       {printf("MUL\n");}
+    | LPAR      {printf("LPAR\n");}
+    | RPAR      {printf("RPAR\n");}
+    | COMMA     {printf("COMMA\n");}
     | JUNK      {printf("JUNK\n");}
     | NEWLINE   {printf("NEWLINE\n");}
 ;
@@ -53,7 +50,6 @@ mul:
         printf("FOUND MUL - RESULT: %d\n", result);
     }
 ;
-
 %%
 
 int main(int, char**) {
