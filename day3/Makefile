@@ -1,16 +1,18 @@
-all: mul.tab.c lex.yy.c mul
+all: parser.tab.c lex.yy.c main
 
-mul.tab.c mul.tab.h: mul.y
-	bison -d mul.y
+parser.tab.c parser.tab.h: parser.y
+	bison -d parser.y
 
-lex.yy.c: mul.l mul.tab.h
-	flex mul.l
+lex.yy.c: lexer.l parser.tab.h
+	flex lexer.l
 
-mul: lex.yy.c mul.tab.c mul.tab.h
-	gcc mul.tab.c lex.yy.c -o mul
+main: lex.yy.c parser.tab.c parser.tab.h
+	gcc parser.tab.c lex.yy.c -o main
 
-debug: 
-	bison -d mul.y -v
+d: 
+	flex lexer.l
+	bison -d parser.y -v --graph
+	gcc parser.tab.c lex.yy.c -o main
 
-clean:
-	rm lex.yy.c mul.tab.c mul.tab.h mul.output
+c:
+	rm lex.yy.c parser.tab.c parser.tab.h main.output parser.gv parser.output main
